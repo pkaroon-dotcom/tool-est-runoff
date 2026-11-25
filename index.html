@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คำนวณปริมาณน้ำท่ารายปีเฉลี่ย</title>
+    <style>
+        /* Base */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Tahoma, sans-serif;
+            margin: 0;
+            padding: 15px;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        /* Layout */
+        .container {
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto 20px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        /* Headings */
+        h1 {
+            margin-top: 0;
+            font-size: 1.8rem;
+            color: #005a9c;
+        }
+
+        h3 {
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+
+        /* Form Controls */
+        select,
+        input,
+        button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            font-size: 16px;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        /* Input & Select */
+        select,
+        input {
+            border: 1px solid #cfd8dc;
+            background-color: #fff;
+        }
+
+        /* Buttons */
+        button {
+            border: none;
+            background-color: #0078d4;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #106ebe;
+        }
+
+        button:active {
+            background-color: #005a9c;
+        }
+
+        /* Result Box */
+        #result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #eef6ff;
+            font-weight: bold;
+            text-align: left;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        /* Footer */
+        footer {
+            text-align: left;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+        }
+
+        /* Small Phones */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.4rem;
+            }
+
+            select,
+            input,
+            button {
+                font-size: 15px;
+                padding: 10px;
+            }
+
+            footer {
+                font-size: 0.8rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ประเมินปริมาณน้ำท่ารายปีเฉลี่ย</h1>
+        <select id="equationSelect">
+            <option value="">เลือกลุ่มน้ำ</option>
+            <option value="y=0.4325*x^1.0065" data-r2="0.9484">สาละวิน : y = 0.4325 * x^1.0065 (r² = 0.9484)</option>
+            <option value="y=0.7187*x^0.9350" data-r2="0.9301">กก : y = 0.7187 * x^0.9350 (r² = 0.9301)</option>
+            <option value="y=0.7549*x^0.8677" data-r2="0.9812">ปิง : y = 0.7549 * x^0.8677 (r² = 0.9812)</option>
+            <option value="y=0.2986*x^0.9205" data-r2="0.9615">วัง : y = 0.2986 * x^0.9205 (r² = 0.9615)</option>
+            <option value="y=0.2143*x^0.9898" data-r2="0.9777">ยม : y = 0.2143 * x^0.9898 (r² = 0.9777)</option>
+            <option value="y=1.5298*x^0.8576" data-r2="0.9639">น่าน : y = 1.5298 * x^0.8576 (r² = 0.9639)</option>
+            <option value="y=0.9024*x^0.9052" data-r2="0.8445">โขง : y = 0.9024 * x^0.9052 (r² = 0.8445)</option>
+            <option value="y=1.0031*x^0.8131" data-r2="0.9560">ชี : y = 1.0031 * x^0.8131 (r² = 0.9560)</option>
+            <option value="y=1.3830*x^0.7777" data-r2="0.8930">มูล : y = 1.3830 * x^0.7777 (r² = 0.8930)</option>
+            <option value="y=0.3387*x^0.9366" data-r2="0.9715">เจ้าพระยา : y = 0.3387 * x^0.9366 (r² = 0.9715)</option>
+            <option value="y=1.0029*x^0.8105" data-r2="0.8836">สะแกกรัง : y = 1.0029 * x^0.8105 (r² = 0.8836)</option>
+            <option value="y=0.8006*x^0.8369" data-r2="0.9628">ปาสัก : y = 0.8006 * x^0.8369 (r² = 0.9628)</option>
+            <option value="y=1.7476*x^0.8317" data-r2="0.9135">ปราจีนบุรี : y = 1.7476 * x^0.8317 (r² = 0.9135)</option>
+            <option value="y=6.5469*x^0.6285" data-r2="0.3098">บางปะกง : y = 6.5469 * x^0.6285 (r² = 0.3098)</option>
+            <option value="y=3.8063*x^0.6862" data-r2="0.8108">โตนเลสาป : y = 3.8063 * x^0.6862 (r² = 0.8108)</option>
+            <option value="y=2.6818*x^0.7971" data-r2="0.7394">ชายฝั่งทะเลตะวันออก : y = 2.6818 * x^0.7971 (r² = 0.7394)</option>
+            <option value="y=0.2229*x^1.0283" data-r2="0.6697">ท่าจีน : y = 0.2229 * x^1.0283 (r² = 0.6697)</option>
+            <option value="y=0.2254*x^1.0492" data-r2="0.8641">แม่กลอง : y = 0.2254 * x^1.0492 (r² = 0.8641)</option>
+            <option value="y=0.0962*x^1.1135" data-r2="0.7916">เพชรบุรี : y = 0.0962 * x^1.1135 (r² = 0.7916)</option>
+            <option value="y=0.8194*x^0.8051" data-r2="0.8448">ชายฝั่งทะเลตะวันตก : y = 0.8194 * x^0.8051 (r² = 0.8448)</option>
+            <option value="y=3.1263*x^0.8416" data-r2="0.8527">ภาคใต้ฝั่งตะวันออก : y = 3.1263 * x^0.8416 (r² = 0.8527)</option>
+            <option value="y=1.1662*x^1.0066" data-r2="0.9227">ตาปี : y = 1.1662 * x^1.0066 (r² = 0.9227)</option>
+            <option value="y=4.6458*x^0.6713" data-r2="0.7814">ทะเลสาปสงขลา : y = 4.6458 * x^0.6713 (r² = 0.7814)</option>
+            <option value="y=0.5381*x^1.0448" data-r2="0.9872">ปัตตานี : y = 0.5381 * x^1.0448 (r² = 0.9872)</option>
+            <option value="y=1.2129*x^0.9974" data-r2="0.9023">ภาคใต้ฝั่่งตะวันตก : y = 1.2129 * x^0.9974 (r² = 0.9023)</option>
+            <!-- รวมทั้งหมด 25 ลุ่มน้ำ -->
+        </select>
+        <br>
+        <input type="number" id="inputX" placeholder="พื้นที่ลุ่มน้ำ (ตารางกิโลเมตร)">
+        <br>
+        <button onclick="calculate()">คำนวณ</button>
+        <br>
+        <div id="result"></div>
+        <br>
+        <button onclick="reset()">คำนวณลุ่มน้ำอื่นๆ</button>
+    </div>
+    <div class="container">
+    <footer>
+        <p>ปริมาณน้ำท่่ารายปีเฉลี่ยที่คำนวณได้เป็นข้อมูลเบื้องต้นควรเปรียบเทียบกับวิธีอื่นและพิจารณาก่อนนำผลไปใช้งาน</p>
+        <h3>เอกสารอ้างอิง</h3>
+        <p>สมชาย อิ่มอยู่ , 2552 , การศึกษาค่าสัมประสิทธิ์น้ำท่าและความสัมพันธ์ระหว่างปริมาณน้ำท่ารายปีเฉลี่ยกับพื้นที่ลุ่มน้ำ 25 ลุ่มน้ำหลักของประเทศไทย , ส่วนอุทกวิทยา สำนักอุทกวิทยาและบริหารน้ำ กรมชลประทาน</p>
+    </footer>
+    </div>
+    <script>
+        function calculate() {
+            const selectElement = document.getElementById('equationSelect');
+            const equation = selectElement.value;
+            const x = parseFloat(document.getElementById('inputX').value);
+            let result = '';
+
+            if (equation && !isNaN(x)) {
+                const a = parseFloat(equation.split('*')[0].split('=')[1].trim());
+                const exponent = parseFloat(equation.split('^')[1]);
+                const y = a * Math.pow(x, exponent);
+                const r2 = selectElement.options[selectElement.selectedIndex].getAttribute('data-r2');
+
+                result = `เมื่อพื้นที่ลุ่มน้ำ (x) = ${x} ตารางกิโลเมตร, ปริมาณน้ำท่าเฉลี่ยรายปี (y) = ${y.toFixed(2)} ล้านลูกบาศ์กเมตร, r² = ${r2}`;
+            } else {
+                result = 'กรุณาเลือกลุ่มน้ำและป้อนค่าพื้นที่ลุ่มน้ำ (x) ที่ถูกต้อง';
+            }
+
+            document.getElementById('result').innerText = result;
+        }
+
+        function reset() {
+            document.getElementById('equationSelect').selectedIndex = 0;
+            document.getElementById('inputX').value = '';
+            document.getElementById('result').innerText = '';
+        }
+    </script>
+</body>
+</html>
